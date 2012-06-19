@@ -1,0 +1,10 @@
+include_rules
+
+ifeq ($(DEBUG),true)
+	: self.cxx ren-general/build/ren-general.debug.a |> !compiledebug |> self.debug
+endif
+
+ifeq $((RELEASE),true)
+	: self.cxx ren-general/build/ren-general.a |> !compilerelease |> self
+endif
+

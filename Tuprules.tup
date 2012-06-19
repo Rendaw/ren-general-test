@@ -1,0 +1,7 @@
+DEBUG = true
+RELEASE = false
+
+!compiledebug = |> g++ $(COMPILEFLAGS) $(COMPILEDEBUGFLAGS) $(INCLUDECONTENTS) -c %f -o %o |> %o
+!compilerelease = |> g++ $(COMPILEFLAGS) $(COMPILERELEASEFLAGS) $(INCLUDECONTENTS) -c %f -o %o |> %o
+!lightarchive = |> ar rsT %o %f |> %o
+
