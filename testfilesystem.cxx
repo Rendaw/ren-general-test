@@ -1,7 +1,7 @@
-#include <ren-general/filesystem.h>
-
 #include <cassert>
 #include <iostream>
+
+#include "ren-general/filesystem.h"
 
 inline void AssertEqual(String const &Got, String const &Expected)
 {

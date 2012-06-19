@@ -2,7 +2,7 @@
 #include <cassert>
 #include <array>
 
-#include <ren-general/arrangement.h>
+#include "ren-general/arrangement.h"
 
 int main(int argc, char **argv)
 {

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cassert>
 
-#include <ren-general/collection.h>
-#include <ren-general/string.h>
+#include "ren-general/collection.h"
+#include "ren-general/string.h"
 
 int main(int argc, char **argv)
 {

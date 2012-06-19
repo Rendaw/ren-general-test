@@ -1,7 +1,11 @@
-DEBUG = true
-RELEASE = false
+COMPILEFLAGS = -std=c++0x -Wall -pedantic
+ifeq (@(DEBUG),true)
+	COMPILEFLAGS += -ggdb -O0
+else
+	COMPILEFLAGS += -O3
+endif
 
-!compiledebug = |> g++ $(COMPILEFLAGS) $(COMPILEDEBUGFLAGS) $(INCLUDECONTENTS) -c %f -o %o |> %o
-!compilerelease = |> g++ $(COMPILEFLAGS) $(COMPILERELEASEFLAGS) $(INCLUDECONTENTS) -c %f -o %o |> %o
+!object = |> g++ $(COMPILEFLAGS) -c %f -o %o |> %o
+!executable = |> g++ $(COMPILEFLAGS) %f -o %o |> %o
 !lightarchive = |> ar rsT %o %f |> %o
 
