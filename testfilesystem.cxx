@@ -75,6 +75,8 @@ int main(int argc, char **argv)
 	AssertEqual(DirectoryPath(Prefix + u8"/a").FindCommonRoot(Prefix + u8"/b").AsAbsoluteString(), Prefix + u8"/");
 	AssertEqual(DirectoryPath(Prefix + u8"/a/1").FindCommonRoot(Prefix + u8"/a/2").AsAbsoluteString(), Prefix + u8"/a");
 	AssertEqual(FilePath(Prefix + u8"/c.txt").File(), u8"c.txt");
+	AssertTrue(LocateWorkingDirectory().Enter(u8"filesystemtesttree").Enter(u8"a").Select(u8"1.txt").Exists());
+	AssertTrue(!LocateWorkingDirectory().Enter(u8"filesystemtesttree").Enter(u8"a").Select(u8"9.txt").Exists());
 	AssertEqual(FilePath(Prefix + u8"/c.txt").Directory().AsAbsoluteString(), Prefix + u8"/");
 	AssertEqual(FilePath(Prefix + u8"/a/c.txt").File(), u8"c.txt");
 	AssertEqual(FilePath(Prefix + u8"/a/c.txt").Directory().AsAbsoluteString(), Prefix + u8"/a");
@@ -87,12 +89,12 @@ int main(int argc, char **argv)
 	std::list<String> DiscoveredFiles;
 	LocateWorkingDirectory().Enter(u8"filesystemtesttree").Walk([&](FilePath const &File) { DiscoveredFiles.push_back(File.File()); });
 	AssertEqual(DiscoveredFiles, {"1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt"});
-	FilePath UnicodeFile = LocateWorkingDirectory().Select(Unicode1);
-	{ 
+	//FilePath UnicodeFile = LocateWorkingDirectory().Select(Unicode1);
+	//{ 
 		//FileOutput UnicodeFileOutput(UnicodeFile); // Not supported by GCC right now?
-		FileOutput UnicodeFileOutput(AsNativeString(UnicodeFile)); 
-		AssertTrue(!!UnicodeFileOutput);
-	}
+		//FileOutput UnicodeFileOutput(AsNativeString(UnicodeFile)); 
+		//AssertTrue(!!UnicodeFileOutput);
+	//}
 	//AssertTrue(UnicodeFile.Delete());
 	//FilePath Unicode2File = LocateWorkingDirectory().Select(Unicode2);
 	//FileOutput Unicode2Output(AsNativeString(Unicode2File));
