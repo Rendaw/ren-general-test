@@ -4,6 +4,9 @@ ifeq (@(DEBUG),true)
 else
 	COMPILEFLAGS += -O3
 endif
+ifeq (@(PLATFORM),windows)
+	COMPILEFLAGS += -DWINDOWS
+endif
 
 !object = |> g++ $(COMPILEFLAGS) -c %f -o %o |> %o
 !executable = |> g++ $(COMPILEFLAGS) %f -o %o |> %o
