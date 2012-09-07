@@ -3,12 +3,13 @@
 
 #include "ren-general/collection.h"
 #include "ren-general/string.h"
+#include "ren-general/inputoutput.h"
 
 int main(int argc, char **argv)
 {
 	{
 		std::vector<String> Test = { "A", "man", "a", "plan", "a", "c" };
-		StringStream Concatenation;
+		MemoryStream Concatenation;
 		
 		auto Iterable1 = StandardIterable<decltype(Test)>(Test);
 		for (String &Element : Iterable1) Concatenation << Element;
@@ -16,8 +17,8 @@ int main(int argc, char **argv)
 		auto Iterable2 = StandardReverseIterable<decltype(Test)>(Test);
 		for (String &Element : Iterable2) Concatenation << Element;
 		
-		std::cout << "Concatenation using all iterators is: \"" << Concatenation.str() << "\"." << std::endl;
-		assert(Concatenation.str() == "AmanaplanaccaplanamanA");
+		StandardStream << "Concatenation using all iterators is: \"" << Concatenation << "\".\n" << OutputStream::Flush;
+		assert((String const &)Concatenation == "AmanaplanaccaplanamanA");
 	}
 	
 	{
@@ -48,7 +49,7 @@ int main(int argc, char **argv)
 		for (Counter &Element : Iterable3) Sum += Element.Value;
 		for (Counter &Element : Iterable3) Sum += Element.Value;
 		for (Counter &Element : Iterable3) Sum += Element.Value;
-		std::cout << "Sum is " << Sum << ", count is " << Count << std::endl;
+		StandardStream << "Sum is " << Sum << ", count is " << Count << "\n" << OutputStream::Flush;
 		assert(Sum == 60); // 15 per iteration
 		assert(Count == 10); // Initialized twice because of uniform init and initializer lists?
 	}
