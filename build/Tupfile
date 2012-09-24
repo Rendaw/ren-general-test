@@ -1,5 +1,6 @@
 include_rules
 
+: ../testinputoutput.cxx ../ren-general/build/ren-general.a |> !executable |> testinputoutput
 : ../testarrangement.cxx ../ren-general/build/ren-general.a |> !executable |> testarrangement
 : ../testcollection.cxx ../ren-general/build/ren-general.a |> !executable |> testcollection
 : ../testfilesystem.cxx ../ren-general/build/ren-general.a |> !executable |> testfilesystem
