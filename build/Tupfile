@@ -1,7 +1,24 @@
-include_rules
+tup.dorulesfile()
+tup.dofile '../ren-general/build/files.tup'
 
-: ../testinputoutput.cxx ../ren-general/build/ren-general.a |> !executable |> testinputoutput
-: ../testarrangement.cxx ../ren-general/build/ren-general.a |> !executable |> testarrangement
-: ../testcollection.cxx ../ren-general/build/ren-general.a |> !executable |> testcollection
-: ../testfilesystem.cxx ../ren-general/build/ren-general.a |> !executable |> testfilesystem
+Sources = 
+{
+	'../testinputoutput.cxx',
+	'../testarrangement.cxx',
+	'../testcollection.cxx',
+	'../testfilesystem.cxx'
+}
+
+for Index, Source in ipairs(Sources)
+do
+	MainObject = Rule.Object(Source)
+	Objects = {MainObject}
+	for Index, Object in ipairs(RenGeneralObjects) do table.insert(Objects, Object) end
+	if tup.getconfig('PLATFORM') == 'windows'
+	then
+		Rule.Executable(Objects, MainObject .. '.exe')
+	else
+		Rule.Executable(Objects, MainObject .. '.elf')
+	end
+end
 

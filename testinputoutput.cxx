@@ -3,7 +3,7 @@
 #include <limits>
 #include <iostream>
 
-int main(int argc, char **argv)
+int main(int, char **)
 {
 	MemoryStream Test;
 

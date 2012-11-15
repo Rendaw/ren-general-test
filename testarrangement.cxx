@@ -4,7 +4,7 @@
 
 #include "ren-general/arrangement.h"
 
-int main(int argc, char **argv)
+int main(int, char **)
 {
 	// Test set
 	// TODO

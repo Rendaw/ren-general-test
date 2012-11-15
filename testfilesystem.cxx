@@ -40,7 +40,7 @@ inline void AssertTrue(bool Expression)
 	assert(Expression);
 }
 
-int main(int argc, char **argv)
+int main(int, char **)
 {
 #ifdef WINDOWS
 	String Prefix(u8"c:");

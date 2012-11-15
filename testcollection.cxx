@@ -5,7 +5,7 @@
 #include "ren-general/string.h"
 #include "ren-general/inputoutput.h"
 
-int main(int argc, char **argv)
+int main(int, char **)
 {
 	{
 		std::vector<String> Test = { "A", "man", "a", "plan", "a", "c" };
@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 		auto Iterable2 = StandardReverseIterable<decltype(Test)>(Test);
 		for (String &Element : Iterable2) Concatenation << Element;
 		
-		StandardStream << "Concatenation using all iterators is: \"" << Concatenation << "\".\n" << OutputStream::Flush();
+		StandardStream << "Concatenation using all iterators is: \"" << (String)Concatenation << "\".\n" << OutputStream::Flush();
 		assert((String const &)Concatenation == "AmanaplanaccaplanamanA");
 	}
 	
