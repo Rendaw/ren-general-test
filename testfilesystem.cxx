@@ -88,7 +88,7 @@ int main(int, char **)
 	String Unicode1(u8"\xE5\xAD\x90\xE4\xBE\x9B"), Unicode2(u8"\xE5\xA4\xA7\x20\xE4\xBA\xBA"), Unicode3(u8"\xE3\x83\x95\xE3\x82\xA6\xE3\x83\x81\xE3\x83\xA7\xE3\x82\xA6\xE7\xA7\x91");
 	FilePath UnicodePath(Prefix + u8"/" + Unicode1 + u8"/" + Unicode2 + u8"/" + Unicode3 + u8".txt");
 	AssertEqual(UnicodePath.File(), Unicode3 + u8".txt");
-	AssertEqual(DirectoryPath(Prefix).Enter(Unicode1).AsAbsoluteString(), Prefix + u8"/" + Unicode1);
+	AssertEqual(DirectoryPath(Prefix + u8"/").Enter(Unicode1).AsAbsoluteString(), Prefix + u8"/" + Unicode1);
 	AssertEqual(LocateWorkingDirectory().Enter(u8"filesystemtesttree").ListDirectories(), {"a", "b"});
 	AssertEqual(LocateWorkingDirectory().Enter(u8"filesystemtesttree").Enter(u8"a").ListFiles(), {"1.txt", "2.txt", "3.txt"});
 	std::list<String> DiscoveredFiles;
