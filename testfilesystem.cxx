@@ -3,29 +3,29 @@
 
 #include "ren-general/filesystem.h"
 
-inline void AssertEqual(String const &Got, String const &Expected)
+inline void AssertEqual_(int Line, String const &Got, String const &Expected)
 {
-	//std::cout << "Checking \"" << Got << "\" against \"" << Expected << "\"" << std::endl;
+	std::cout << Line << ": Checking \"" << Got << "\" against \"" << Expected << "\"" << std::endl;
 	assert(Got == Expected);
 }
 
-inline void AssertEqual(unsigned int Got, unsigned int Expected)
+inline void AssertEqual_(int Line, unsigned int Got, unsigned int Expected)
 {
-	//std::cout << "Checking " << Got << " against " << Expected << std::endl;
+	std::cout << Line << ": Checking " << Got << " against " << Expected << std::endl;
 	assert(Got == Expected);
 }
 
-inline void AssertEqual(std::list<String> Got, std::list<String> Expected)
+inline void AssertEqual_(int Line, std::list<String> Got, std::list<String> Expected)
 {
 	Got.sort();
 	Expected.sort();
-	//std::cout << "Checking string lists:" << std::endl;
-	//std::cout << "\tGot:";
-	//for (auto &Element : Got) std::cout << " \"" << Element << "\"";
-	//std::cout << std::endl;
-	//std::cout << "\tExpected:";
-	//for (auto &Element : Expected) std::cout << " \"" << Element << "\"";
-	//std::cout << std::endl;
+	std::cout << Line << ": Checking string lists:" << std::endl;
+	std::cout << "\tGot:";
+	for (auto &Element : Got) std::cout << " \"" << Element << "\"";
+	std::cout << std::endl;
+	std::cout << "\tExpected:";
+	for (auto &Element : Expected) std::cout << " \"" << Element << "\"";
+	std::cout << std::endl;
 	assert(Got.size() == Expected.size());
 	std::list<String>::const_iterator ExpectedElement = Expected.begin();
 	for (auto &GotElement : Got)
@@ -35,10 +35,15 @@ inline void AssertEqual(std::list<String> Got, std::list<String> Expected)
 	}
 }
 
-inline void AssertTrue(bool Expression)
+#define AssertEqual(...) AssertEqual_(__LINE__, __VA_ARGS__)
+
+inline void AssertTrue_(int Line, bool Expression)
 {
+	std::cout << Line << ": Checking truth." << std::endl;
 	assert(Expression);
 }
+
+#define AssertTrue(...) AssertTrue_(__LINE__, __VA_ARGS__)
 
 int main(int, char **)
 {
@@ -63,12 +68,12 @@ int main(int, char **)
 	AssertEqual(Path(Prefix + u8"/a/./1").AsAbsoluteString(), Prefix + u8"/a/1");
 	AssertEqual(Path(Prefix + u8"/a/..").AsAbsoluteString(), Prefix + u8"/");
 	AssertEqual(Path(Prefix + u8"/a/../1").AsAbsoluteString(), Prefix + u8"/1");
-	AssertEqual(Path(Prefix + u8"/").AsRelativeString(DirectoryPath(Prefix + u8"/")), Prefix + u8"");
-	AssertEqual(Path(Prefix + u8"/a").AsRelativeString(DirectoryPath(Prefix + u8"/")), Prefix + u8"a");
-	AssertEqual(Path(Prefix + u8"/").AsRelativeString(DirectoryPath(Prefix + u8"/b")), Prefix + u8"..");
-	AssertEqual(Path(Prefix + u8"/a").AsRelativeString(DirectoryPath(Prefix + u8"/b")), Prefix + u8"../a");
-	AssertEqual(Path(Prefix + u8"/a/1").AsRelativeString(DirectoryPath(Prefix + u8"/b")), Prefix + u8"../a/1");
-	AssertEqual(Path(Prefix + u8"/a").AsRelativeString(DirectoryPath(Prefix + u8"/b/1")), Prefix + u8"../../a");
+	AssertEqual(Path(Prefix + u8"/").AsRelativeString(DirectoryPath(Prefix + u8"/")), u8"");
+	AssertEqual(Path(Prefix + u8"/a").AsRelativeString(DirectoryPath(Prefix + u8"/")), u8"a");
+	AssertEqual(Path(Prefix + u8"/").AsRelativeString(DirectoryPath(Prefix + u8"/b")), u8"..");
+	AssertEqual(Path(Prefix + u8"/a").AsRelativeString(DirectoryPath(Prefix + u8"/b")), u8"../a");
+	AssertEqual(Path(Prefix + u8"/a/1").AsRelativeString(DirectoryPath(Prefix + u8"/b")), u8"../a/1");
+	AssertEqual(Path(Prefix + u8"/a").AsRelativeString(DirectoryPath(Prefix + u8"/b/1")), u8"../../a");
 	AssertEqual(DirectoryPath(Prefix + u8"/").FindCommonRoot(Prefix + u8"/").AsAbsoluteString(), Prefix + u8"/");
 	AssertEqual(DirectoryPath(Prefix + u8"/a").FindCommonRoot(Prefix + u8"/").AsAbsoluteString(), Prefix + u8"/");
 	AssertEqual(DirectoryPath(Prefix + u8"/").FindCommonRoot(Prefix + u8"/a").AsAbsoluteString(), Prefix + u8"/");
@@ -83,7 +88,7 @@ int main(int, char **)
 	String Unicode1(u8"\xE5\xAD\x90\xE4\xBE\x9B"), Unicode2(u8"\xE5\xA4\xA7\x20\xE4\xBA\xBA"), Unicode3(u8"\xE3\x83\x95\xE3\x82\xA6\xE3\x83\x81\xE3\x83\xA7\xE3\x82\xA6\xE7\xA7\x91");
 	FilePath UnicodePath(Prefix + u8"/" + Unicode1 + u8"/" + Unicode2 + u8"/" + Unicode3 + u8".txt");
 	AssertEqual(UnicodePath.File(), Unicode3 + u8".txt");
-	AssertEqual(DirectoryPath(u8"/").Enter(Unicode1).AsAbsoluteString(), Prefix + u8"/" + Unicode1);
+	AssertEqual(DirectoryPath(Prefix).Enter(Unicode1).AsAbsoluteString(), Prefix + u8"/" + Unicode1);
 	AssertEqual(LocateWorkingDirectory().Enter(u8"filesystemtesttree").ListDirectories(), {"a", "b"});
 	AssertEqual(LocateWorkingDirectory().Enter(u8"filesystemtesttree").Enter(u8"a").ListFiles(), {"1.txt", "2.txt", "3.txt"});
 	std::list<String> DiscoveredFiles;
