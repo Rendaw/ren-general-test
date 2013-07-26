@@ -1,3 +1,6 @@
 [submodule "ren-general"]
 	path = ren-general
 	url = ../ren-general.git
+[submodule "tupsupport"]
+	path = tupsupport
+	url = ../ren-tupsupport

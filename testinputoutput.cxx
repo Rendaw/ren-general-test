@@ -44,6 +44,13 @@ int main(int, char **)
 	MemoryStream("4.3") >> FloatOut;
 	assert(RangeF(4.2, 4.4).Contains(FloatOut));
 
+	bool BoolOut = false;
+	(void) (MemoryStream("1") >> BoolOut);
+	assert(BoolOut == true);
+	 
+	(void) (MemoryStream("0") >> BoolOut);
+	assert(BoolOut == false);
+
 	return 0;
 }
 
